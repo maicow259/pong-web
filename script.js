@@ -3,6 +3,7 @@ console.log("Canvas width:", canvas.width);
 
 // Get the drawing tool of the canvas
 const ctx = canvas.getContext('2d');
+const keys = {};
 
 const ball = {
   x: 400,
@@ -17,6 +18,7 @@ const leftPaddle = {
   y: 200,
   width: 10,
   height: 100,
+  speed: 6,
 };
 
 const rightPaddle = {
@@ -24,6 +26,7 @@ const rightPaddle = {
   y: 200,
   width: 10,
   height: 100,
+  speed: 6,
 };
 
 function draw() {
@@ -48,6 +51,22 @@ function update() {
     if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
         ball.speedX = -ball.speedX; // reverse the x direction if it hits the left or right
     }
+
+    if (keys['w']) {
+        leftPaddle.y -= leftPaddle.speed; // move the left paddle up
+    }
+
+    if (keys['s']) {
+        leftPaddle.y += leftPaddle.speed; // move the left paddle down
+    }
+
+    if (keys['arrowup']) {
+        rightPaddle.y -= rightPaddle.speed; // move the right paddle up
+    }
+
+    if (keys['arrowdown']) {
+        rightPaddle.y += rightPaddle.speed; // move the right paddle down
+    }
 }
 
 function gameLoop() {
@@ -55,5 +74,13 @@ function gameLoop() {
     draw(); // call the draw function to render the updated state
     requestAnimationFrame(gameLoop); // call the gameLoop function again for the next frame
 }
+
+document.addEventListener('keydown', function(e){
+    keys[e.key.toLowerCase()] = true;
+});
+
+document.addEventListener('keyup', function(e){
+    keys[e.key.toLowerCase()] = false;
+});
 
 gameLoop(); // start the game loop
