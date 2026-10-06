@@ -8,8 +8,8 @@ const ball = {
   x: 400,
   y: 250,
   radius: 8,
-  speedX: 4, // pixels per frame in the x direction
-  speedY: 0, // pixels per frame in the y direction
+  speedX: 1, // pixels per frame in the x direction
+  speedY: 3, // pixels per frame in the y direction
 };
 
 const leftPaddle = {
@@ -40,6 +40,14 @@ function draw() {
 function update() {
     ball.x += ball.speedX; // update the ball's x position
     ball.y += ball.speedY; // update the ball's y position
+
+    if (ball.y - ball.radius <= 0 || ball.y + ball.radius >= canvas.height) {
+        ball.speedY = -ball.speedY; // reverse the y direction if it hits the top or bottom
+    }
+
+    if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
+        ball.speedX = -ball.speedX; // reverse the x direction if it hits the left or right
+    }
 }
 
 function gameLoop() {
